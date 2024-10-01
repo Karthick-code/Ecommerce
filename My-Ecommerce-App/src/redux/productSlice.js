@@ -6,31 +6,30 @@ import axios from 'axios';
 
 // Fetch categories from backend API
 export const fetchCategories = createAsyncThunk('products/fetchCategories', async () => {
-  const response = await axios.get('http://localhost:5000/api/categories'); // Updated URL to point to your backend
+  const response = await axios.get('https://ecommerce-k6g8.onrender.com/api/categories'); // Updated URL to point to your backend
   return response.data; // Assuming response contains a list of categories
 });
 
-
 export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async ({ category = '', searchQuery = '', skip = 0, limit = 10 }) => {
-    let url;
-
-    if (searchQuery) {
-      // Search products by title in the backend
-      url = `https://dummyjson.com/products/search?q=${searchQuery}`; // Updated URL
-    } else if (category) {
-      // Fetch products from selected category in the backend
-      url = `https://dummyjson.com/products/category/${category}`; // Updated URL
-    } else {
-      // Fetch all products from the backend
-      url = `https://dummyjson.com/products`; // Updated URL
+    'products/fetchProducts',
+    async ({ category = '', searchQuery = '', skip = 0, limit = 10 }) => {
+      let url;
+  
+      // Construct URL for fetching products
+      if (searchQuery) {
+        url = `https://dummyjson.com/products/search?q=${searchQuery}&skip=${skip}&limit=${limit}`;
+      } else if (category) {
+        url = `https://dummyjson.com/products/category/${category}?skip=${skip}&limit=${limit}`;
+      } else {
+        url = `https://dummyjson.com/products?skip=${skip}&limit=${limit}`;
+      }
+  
+      const response = await axios.get(url);
+      return response.data.products; // Assuming response.data contains the array of products
     }
+  );
+  
 
-    const response = await axios.get(url);
-    return response.data.products; // Assuming response.data contains the array of products
-  }
-);
 
 const productSlice = createSlice({
   name: 'products',

@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
-  const response = await axios.get('http://localhost:5000/api/categories');
+  const response = await axios.get('https://ecommerce-k6g8.onrender.com/api/categories');
   return response.data;
 });
 
