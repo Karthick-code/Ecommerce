@@ -59,8 +59,8 @@ export default function ProductList() {
             </Typography>
 
             <Grid container spacing={2}>
-                {products.map((product) => (
-                    <Grid item xs={12} sm={6} md={4} key={product.id}>
+                {products.map((product,index) => (
+                    <Grid item xs={12} sm={6} md={4} key={`${product.id}-${index}`}>
                         <Card>
                             <CardMedia
                                 component="img"
